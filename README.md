@@ -1,6 +1,6 @@
 # 🍣 Sushi
 
-A file-based Markdown CMS framework built on SvelteKit. Write markdown, build components, ship.
+A file-based Markdown CMS framework built on SvelteKit. Write markdown, build svelte components.
 
 ## Getting Started
 
@@ -60,6 +60,10 @@ All markdown is support but following extra syntax is available:
 
 Newer versions of SvelteKit support remote functions, which are server functions that can be called from the client.
 Server functions live in `functions/` — use them for forms, data queries and more via `$functions/example.remote`. See [SvelteKit docs](https://svelte.dev/docs/kit/remote-functions) for more.
+
+## Roadmap
+
+Nice thing to have would be some kind of visual editor for the markdown. Not everyone understands markdown syntax and especiallöy the mdc and custom syntax can be confusing.
 
 ## License
 
