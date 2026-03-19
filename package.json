@@ -7,7 +7,7 @@
   "type": "module",
   "main": "index.js",
   "bin": {
-    "cms": "./src/cli.js",
+    "sushi": "./src/cli.js",
     "create-sushi": "./src/create.js"
   },
   "scripts": {
