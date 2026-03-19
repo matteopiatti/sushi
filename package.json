@@ -1,0 +1,12 @@
+{
+  "name": "@sushi/core",
+  "version": "0.0.1",
+  "description": "A markdown powered cms for svelte components including remote functions",
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
