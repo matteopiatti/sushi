@@ -7,8 +7,8 @@
   "type": "module",
   "main": "index.js",
   "bin": {
-    "sushi": "./src/cli.js",
-    "create-sushi": "./src/create.js"
+    "sushi": "src/cli.js",
+    "create-sushi": "src/create.js"
   },
   "scripts": {
     "dev": "node --experimental-strip-types src/cli.js dev"
