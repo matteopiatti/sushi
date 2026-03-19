@@ -19,7 +19,12 @@
   "dependencies": {
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/kit": "^2.55.0",
+    "remark-breaks": "^4.0.0",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdc": "^3.10.0",
+    "remark-parse": "^11.0.0",
     "svelte": "^5.0.0",
+    "unified": "^11.0.5",
     "vite": "^8.0.0"
   },
   "peerDependencies": {

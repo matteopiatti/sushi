@@ -5,8 +5,8 @@
   import remarkFrontmatter from "remark-frontmatter";
   import remarkBreaks from "remark-breaks";
   import { unified } from "unified";
-  import plainTextSyntax from "$lib/admin/plainTextDirective";
-  import spacerSyntax from "$lib/admin/spacerDirective.js";
+  import plainTextSyntax from "$lib/plainTextDirective";
+  import spacerSyntax from "$lib/spacerDirective.js";
   import { page } from "$app/state";
 
   const { data } = $props();

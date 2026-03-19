@@ -1,15 +1,14 @@
 <script>
-  import "$lib/assets/reset.css";
-  import "$lib/assets/style.css";
-  import Block from "$lib/admin/Block.svelte";
   import remarkParse from "remark-parse";
   import remarkMDC from "remark-mdc";
   import remarkFrontmatter from "remark-frontmatter";
-  import { unified } from "unified";
-  import plainTextSyntax from "$lib/admin/plainTextDirective";
-  import spacerSyntax from "$lib/admin/spacerDirective.js";
-  import childrenDirective from "$lib/admin/childrenDirective.js";
   import remarkBreaks from "remark-breaks";
+  import { unified } from "unified";
+
+  import plainTextSyntax from "$lib/plainTextDirective";
+  import spacerSyntax from "$lib/spacerDirective.js";
+  import childrenDirective from "$lib/childrenDirective.js";
+  import Block from "$lib/Block.svelte";
   import { onNavigate } from "$app/navigation";
 
   const { data, children } = $props();
