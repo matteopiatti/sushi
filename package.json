@@ -1,5 +1,5 @@
 {
-  "name": "@sushi/core",
+  "name": "sushi-cms",
   "version": "0.0.1",
   "description": "A markdown powered cms for svelte components including remote functions",
   "license": "MIT",
