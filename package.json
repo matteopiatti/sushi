@@ -25,5 +25,8 @@
   "peerDependencies": {
     "@sveltejs/kit": "^2.55.0",
     "svelte": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0"
   }
 }
