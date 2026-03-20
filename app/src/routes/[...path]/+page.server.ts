@@ -1,9 +1,8 @@
-import type { PageServerLoad } from "./$types";
+import { getPageContentFromPath } from "$lib/utils";
 import { contentDir } from "sushi:imports";
 import path from "path";
-import { getPageContentFromPath } from "$lib/utils";
 
-export const load: PageServerLoad = ({ params }) => {
+export const load = ({ params }: { params: Record<string, string> }) => {
   const normalizedPath = path.normalize(params.path);
   const folderPath = path.resolve(contentDir);
 

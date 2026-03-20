@@ -1,6 +1,7 @@
 <script>
   import { createRawSnippet, mount, unmount } from "svelte";
   import Block from "$lib/Block.svelte";
+  import { blocks } from "$lib/blocks";
 
   const props = $props();
 
@@ -13,9 +14,8 @@
 
   $effect(() => {
     (async () => {
-      COMPONENT = (
-        await import(/* @vite-ignore */ DIR + "/" + capitalName + ".svelte")
-      ).default;
+      // @ts-ignore
+      COMPONENT = (await blocks[capitalName]()).default;
     })();
   });
 

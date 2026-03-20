@@ -1,7 +1,7 @@
 import adapter from "@sveltejs/adapter-auto";
 import { resolve } from "path";
 
-const userCwd = process.env.CMS_USER_CWD;
+const userCwd = process.env.CMS_USER_CWD ?? process.cwd();
 
 export default {
   kit: {

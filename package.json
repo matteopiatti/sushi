@@ -11,7 +11,7 @@
     "create-sushi": "src/create.js"
   },
   "scripts": {
-    "dev": "node --experimental-strip-types src/cli.js dev"
+    "dev": "node src/cli.js dev"
   },
   "exports": {
     ".": "./src/index.ts"

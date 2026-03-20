@@ -1,10 +1,8 @@
-import type { PageServerLoad } from "./$types";
 import { contentDir } from "sushi:imports";
 import { getPageContentFromPath } from "../../lib/utils";
 import path from "node:path";
-import fs from "node:fs";
 
-export const load: PageServerLoad = () => {
+export const load = () => {
   const folderPath = path.resolve(contentDir);
 
   try {
