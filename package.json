@@ -3,9 +3,13 @@
   "version": "0.0.3",
   "description": "A markdown powered cms for svelte components including remote functions",
   "license": "MIT",
-  "author": "",
+  "author": "Matteo Piatti",
   "type": "module",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matteopiatti/sushi"
+  },
   "bin": {
     "sushi": "src/cli.js",
     "create-sushi": "src/create.js"

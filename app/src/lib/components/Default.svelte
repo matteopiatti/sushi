@@ -9,10 +9,11 @@
     blockquote: "blockquote",
     emphasis: "i",
     strong: "b",
-    thematicBreak: "hr",
+    thematicBreak: null,
     break: "br",
     listItem: "li",
     paragraph: "p",
+    // svelte-ignore state_referenced_locally
     heading: `h${props.depth}`,
     inlineCode: null,
     plainText: null,
@@ -29,6 +30,8 @@
   <svelte:element this={el} {...props}>
     {@render props.children?.()}
   </svelte:element>
+{:else if props.type === "thematicBreak"}
+  <hr />
 {:else if props.type === "inlineCode"}
   <svelte:element this={"code"} class="inline-code" {...props}>
     {props.value}

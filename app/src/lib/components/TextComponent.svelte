@@ -4,15 +4,14 @@
 
   const props = $props();
 
-  const capitalName = props.name
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join("");
-
   let COMPONENT = $state();
 
   $effect(() => {
     if (props.name === "span") return;
+    const capitalName = props.name
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join("");
     (async () => {
       // @ts-ignore
       COMPONENT = (await blocks[capitalName]()).default;

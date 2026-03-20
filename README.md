@@ -48,7 +48,17 @@ A layout.md needs this specific tag to render the page content at that position:
 
 Frontmatter is supported. Blocks are Svelte components in `blocks/`, available in your markdown pages. As a remark parser nuxt remark-mdc is used, so their syntax applies. See [their docs](https://remark-mdc.nuxt.space/) for more.
 
-All markdown is support but following extra syntax is available:
+Frontmatter so far can be used for title, description and stylesheets:
+
+```markdown
+---
+title: My Page
+description: This is a page about something cool.
+style: ["style.css"]
+---
+```
+
+All markdown is supported; following extra syntax is available:
 
 ```markdown
 -> plaintext, everything in here will be stripped of the default remark paragraph wrapper and rendered as plain text. Useful for components that should always have a h1, for example.
@@ -60,6 +70,14 @@ All markdown is support but following extra syntax is available:
 
 Newer versions of SvelteKit support remote functions, which are server functions that can be called from the client.
 Server functions live in `functions/` — use them for forms, data queries and more via `$functions/example.remote`. See [SvelteKit docs](https://svelte.dev/docs/kit/remote-functions) for more.
+
+## Prettier
+
+Add a .prettierignore file to the root of your project with the following content if prettier leads to some weird formatting:
+
+```
+content/**/*.md
+```
 
 ## Roadmap
 
