@@ -1,10 +1,14 @@
 <script>
-	import { parse as parseYaml } from 'yaml';
-	const { value } = $props();
-	const data = parseYaml(value);
+  import { parse as parseYaml } from "yaml";
+  const { value } = $props();
+  const data = parseYaml(value);
+  $inspect(data);
 </script>
 
 <svelte:head>
-	<title>{data.title}</title>
-	<meta name="description" content={data.description} />
+  <title>{data.title}</title>
+  <meta name="description" content={data.description} />
+  {#each data.style as style}
+    <link rel="stylesheet" href={style} />
+  {/each}
 </svelte:head>
