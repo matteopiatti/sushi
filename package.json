@@ -1,6 +1,6 @@
 {
   "name": "sushi-cms",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A markdown powered cms for svelte components including remote functions",
   "license": "MIT",
   "author": "Matteo Piatti",

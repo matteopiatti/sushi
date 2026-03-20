@@ -79,6 +79,10 @@ Add a .prettierignore file to the root of your project with the following conten
 content/**/*.md
 ```
 
+## View Transitions
+
+Sushi supports view transitions out of the box.
+
 ## Roadmap
 
 Nice thing to have would be some kind of visual editor for the markdown. Not everyone understands markdown syntax and especiallöy the mdc and custom syntax can be confusing.

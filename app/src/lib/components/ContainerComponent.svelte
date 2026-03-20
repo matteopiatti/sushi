@@ -17,7 +17,11 @@
   $effect(() => {
     (async () => {
       // @ts-ignore
-      COMPONENT = (await blocks[capitalName]()).default;
+      try {
+        COMPONENT = (await blocks[capitalName]()).default;
+      } catch (e) {
+        console.error(`Component ${capitalName} not found in blocks.`);
+      }
     })();
   });
 
