@@ -39,7 +39,7 @@ writeFileSync(
 console.log("✓  package.json written");
 
 writeFileSync(
-  resolve(root, "content/page.md"),
+  resolve(root, "content/layout.md"),
   `---
 style: ["style.css"]
 ---
@@ -51,7 +51,7 @@ MIT License - [Github](https://github.com/matteopiatti/sushi)
 );
 
 writeFileSync(
-  resolve(root, "content/layout.md"),
+  resolve(root, "content/page.md"),
   `# Welcome to Sushi CMS 🍣
 
 **This is a component:**
