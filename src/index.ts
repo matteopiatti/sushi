@@ -1,3 +1,3 @@
-export function randomFunction() {
-  return Math.random();
-}
+import Link from '../app/src/lib/components/Link.svelte';
+
+export { Link };
