@@ -25,7 +25,7 @@ writeFileSync(
       name: projectName,
       version: "0.0.1",
       type: "module",
-      scripts: { dev: "cms dev", build: "cms build" },
+      scripts: { dev: "sushi dev", build: "sushi build" },
       dependencies: {
         "sushi-cms": "latest",
         "@sveltejs/kit": "latest",
