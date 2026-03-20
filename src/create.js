@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { mkdirSync, writeFileSync } from "fs";
 import { resolve } from "path";
+import pkg from "../package.json" with { type: "json" };
 
 const projectName = process.argv[2];
 if (!projectName) {
@@ -10,9 +11,7 @@ if (!projectName) {
 
 const root = resolve(process.cwd(), projectName);
 
-console.log(
-  `\n🍣 Sushi CMS v${require("./package.json").version} | creating ${projectName}...\n`,
-);
+console.log(`\n🍣 Sushi CMS v${pkg.version} | creating ${projectName}...\n`);
 
 mkdirSync(resolve(root, "content"), { recursive: true });
 mkdirSync(resolve(root, "blocks"), { recursive: true });
