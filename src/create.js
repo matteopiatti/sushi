@@ -27,7 +27,7 @@ writeFileSync(
       type: "module",
       scripts: { dev: "cms dev", build: "cms build" },
       dependencies: {
-        "@sushi/cms": "latest",
+        "sushi-cms": "latest",
         "@sveltejs/kit": "latest",
         svelte: "latest",
       },
