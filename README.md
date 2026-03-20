@@ -79,6 +79,10 @@ Add a .prettierignore file to the root of your project with the following conten
 content/**/*.md
 ```
 
+## Exported components
+
+Sushi provides a few helper components that can be imported from `sushi-cms` package.
+
 ## View Transitions
 
 Sushi supports view transitions out of the box.
