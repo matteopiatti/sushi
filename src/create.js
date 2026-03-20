@@ -39,7 +39,7 @@ writeFileSync(
 console.log("✓  package.json written");
 
 writeFileSync(
-  resolve(root, "content/layout.md"),
+  resolve(root, "content/page.md"),
   `---
 style: ["style.css"]
 ---
