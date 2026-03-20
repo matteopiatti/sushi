@@ -10,7 +10,9 @@ if (!projectName) {
 
 const root = resolve(process.cwd(), projectName);
 
-console.log(`\n🍣  creating ${projectName}...\n`);
+console.log(
+  `\n🍣 Sushi CMS v${require("./package.json").version} | creating ${projectName}...\n`,
+);
 
 mkdirSync(resolve(root, "content"), { recursive: true });
 mkdirSync(resolve(root, "blocks"), { recursive: true });
