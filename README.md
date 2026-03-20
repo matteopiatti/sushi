@@ -17,7 +17,7 @@ npm run dev
 my-site/
 content/ ← markdown pages
 blocks/ ← svelte components
-functions/ ← [remote functions](https://svelte.dev/docs/kit/remote-functions)
+functions/ ← remote functions
 static/ ← images, fonts, assets
 ```
 

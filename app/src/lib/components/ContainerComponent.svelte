@@ -1,43 +1,48 @@
 <script>
-	import { createRawSnippet, mount, unmount } from 'svelte';
-	import Block from '$lib/admin/Block.svelte';
+  import { createRawSnippet, mount, unmount } from "svelte";
+  import Block from "$lib/Block.svelte";
 
-	const props = $props();
+  const props = $props();
 
-	const DIR = '../blocks';
-	const capitalName = props.name
-		.split('-')
-		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-		.join('');
-	let COMPONENT = $state();
+  const DIR = "../blocks";
+  const capitalName = props.name
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join("");
+  let COMPONENT = $state();
 
-	$effect(() => {
-		(async () => {
-			COMPONENT = (await import(/* @vite-ignore */ DIR + '/' + capitalName + '.svelte')).default;
-		})();
-	});
+  $effect(() => {
+    (async () => {
+      COMPONENT = (
+        await import(/* @vite-ignore */ DIR + "/" + capitalName + ".svelte")
+      ).default;
+    })();
+  });
 
-	const children = Object.fromEntries(
-		props.children.map((element) => {
-			const c = createRawSnippet(() => ({
-				render: () => `<svelte:fragment></svelte:fragment>`,
-				setup: (target) => {
-					const comp = mount(Block, {
-						target,
-						props: {
-							tree: element,
-							...element.attributes
-						}
-					});
-					return () => unmount(comp);
-				}
-			}));
-			return [element.name, c];
-		})
-	);
-	const childrenProps = Object.fromEntries(
-		props.children.map((element) => [`${element.name}Props`, element.attributes])
-	);
+  const children = Object.fromEntries(
+    props.children.map((element) => {
+      const c = createRawSnippet(() => ({
+        render: () => `<svelte:fragment></svelte:fragment>`,
+        setup: (target) => {
+          const comp = mount(Block, {
+            target,
+            props: {
+              tree: element,
+              ...element.attributes,
+            },
+          });
+          return () => unmount(comp);
+        },
+      }));
+      return [element.name, c];
+    }),
+  );
+  const childrenProps = Object.fromEntries(
+    props.children.map((element) => [
+      `${element.name}Props`,
+      element.attributes,
+    ]),
+  );
 </script>
 
 <COMPONENT {...props.fmAttributes} {...children} {...childrenProps} />

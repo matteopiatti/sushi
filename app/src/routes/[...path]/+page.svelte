@@ -1,5 +1,5 @@
 <script>
-  import Block from "$lib/admin/Block.svelte";
+  import Block from "$lib/Block.svelte";
   import remarkParse from "remark-parse";
   import remarkMDC from "remark-mdc";
   import remarkFrontmatter from "remark-frontmatter";

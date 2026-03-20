@@ -12,6 +12,7 @@
   import { onNavigate } from "$app/navigation";
 
   const { data, children } = $props();
+
   const md = $derived(data.layoutContent);
 
   const processor = unified()
@@ -37,8 +38,14 @@
   });
 </script>
 
-<Block {tree}>
+{#if data.layoutContent === ""}
   <main>
     {@render children()}
   </main>
-</Block>
+{:else}
+  <Block {tree}>
+    <main>
+      {@render children()}
+    </main>
+  </Block>
+{/if}
