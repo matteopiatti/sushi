@@ -83,6 +83,8 @@ content/**/*.md
 
 Sushi provides a few helper components that can be imported from `sushi-cms` package.
 
+- Link: A component that handles both internal and external links, adding appropriate attributes for security and SEO.
+
 ## View Transitions
 
 Sushi supports view transitions out of the box.
