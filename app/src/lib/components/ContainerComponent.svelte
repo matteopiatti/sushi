@@ -16,11 +16,22 @@
 
   $effect(() => {
     (async () => {
-      // @ts-ignore
       try {
+        // @ts-ignore
         COMPONENT = (await blocks[capitalName]()).default;
       } catch (e) {
-        console.error(`Component ${capitalName} not found in blocks.`);
+        if (
+          e instanceof Error &&
+          e.message.includes(
+            "(intermediate value)[$.get(...)] is not a function",
+          )
+        ) {
+          console.error(
+            `Component ${capitalName} not found in blocks. Make sure to create it.`,
+          );
+        } else {
+          throw e;
+        }
       }
     })();
   });
