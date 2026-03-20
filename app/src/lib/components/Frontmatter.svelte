@@ -2,7 +2,6 @@
   import { parse as parseYaml } from "yaml";
   const { value } = $props();
   const data = parseYaml(value);
-  $inspect(data);
 </script>
 
 <svelte:head>

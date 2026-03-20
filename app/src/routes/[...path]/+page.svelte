@@ -5,7 +5,6 @@
 
   const { data } = $props();
   const tree = $derived(await generateTree(data.pageContent));
-  $inspect(tree);
 </script>
 
 {#key page.url.pathname}

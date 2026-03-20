@@ -5,11 +5,11 @@
 
   const props = $props();
 
-  const DIR = "../blocks";
   const capitalName = props.name
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join("");
+
   let COMPONENT = $state();
 
   $effect(() => {

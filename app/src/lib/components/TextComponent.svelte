@@ -1,8 +1,9 @@
 <script>
   import Block from "$lib/Block.svelte";
+  import { blocks } from "$lib/blocks";
+
   const props = $props();
 
-  const DIR = "../blocks";
   const capitalName = props.name
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -13,9 +14,8 @@
   $effect(() => {
     if (props.name === "span") return;
     (async () => {
-      COMPONENT = (
-        await import(/* @vite-ignore */ DIR + "/" + capitalName + ".svelte")
-      ).default;
+      // @ts-ignore
+      COMPONENT = (await blocks[capitalName]()).default;
     })();
   });
 </script>
