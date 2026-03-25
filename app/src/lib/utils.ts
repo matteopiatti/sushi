@@ -6,6 +6,7 @@ import remarkFrontmatter from "remark-frontmatter";
 import remarkBreaks from "remark-breaks";
 import { unified } from "unified";
 import sushiDirective from "./sushiDirective";
+import remarkStringify from "remark-stringify";
 
 export function getPageContentFromPath(
   folderPath: string,
@@ -30,4 +31,15 @@ export async function generateTree(md: string, layout = false) {
     .use(remarkBreaks)
     .use(sushiDirective, { layout });
   return await processor.run(processor.parse(md));
+}
+
+export async function serializeTree(tree: any, layout = false): Promise<string> {
+  const processor = unified()
+    .use(sushiDirective, { layout })
+    .use(remarkMDC)
+    .use(remarkFrontmatter, ["yaml"])
+    .use(remarkStringify);
+
+  const file = processor.stringify(tree);
+  return String(file);
 }
