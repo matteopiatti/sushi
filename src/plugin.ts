@@ -20,7 +20,9 @@ export function sushi(userCwd: string): Plugin {
       // react to changes in those dirs
       server.watcher.on("change", (file) => {
         if (file.startsWith(userDir)) {
-          server.ws.send({ type: "full-reload" });
+          if (process.env.SUSHI_EDITOR !== "true") {
+            server.ws.send({ type: "full-reload" });
+          }
         }
       });
     },

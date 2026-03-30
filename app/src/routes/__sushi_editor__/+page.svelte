@@ -8,9 +8,10 @@
   const { data } = $props();
 
   const getActivePage = getContext<() => string>("activePage");
-  let tree = $derived(await generateTree(data.pageContent));
+  let tree = $state(await generateTree(data.pageContent));
   const activePage = $derived(getActivePage());
   let saving = $state(false);
+  let iframe = $state<HTMLIFrameElement>();
 
   let saveTimeout: ReturnType<typeof setTimeout>;
   async function onChange() {
@@ -19,8 +20,14 @@
     saveTimeout = setTimeout(async () => {
       const md = await serializeTree(tree);
       await savePage({ slug: activePage, content: md });
+      iframe?.contentWindow?.location.reload();
       saving = false;
     }, 1500);
+  }
+
+  function addBlock(index: number, block: any) {
+    tree.children.splice(index + 1, 0, block);
+    onChange();
   }
 </script>
 
@@ -34,13 +41,14 @@
   <div class="editor-content">
     <div>
       {#key page.url.searchParams.get("current")}
-        <EditBlock bind:tree save={onChange} />
+        <EditBlock bind:tree save={onChange} {addBlock} />
       {/key}
     </div>
     <iframe
       src="/{activePage === 'index' ? '' : activePage}"
       style="width: 100%; height: 100%; border: none;"
       title="preview"
+      bind:this={iframe}
     ></iframe>
   </div>
 </div>

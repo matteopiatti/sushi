@@ -7,6 +7,10 @@ import remarkBreaks from "remark-breaks";
 import { unified } from "unified";
 import sushiDirective from "./sushiDirective";
 import remarkStringify from "remark-stringify";
+import rehypeParse from "rehype-parse";
+import { toMdast } from "hast-util-to-mdast";
+import { toHtml } from "hast-util-to-html";
+import { toHast } from "mdast-util-to-hast";
 
 export function getPageContentFromPath(
   folderPath: string,
@@ -45,6 +49,20 @@ export async function serializeTree(
 
   const file = processor.stringify(tree);
   return String(file);
+}
+
+export function htmlToMdastChildren(html: string): any[] {
+  const hast = unified().use(rehypeParse, { fragment: true }).parse(html);
+
+  const mdast = toMdast(hast);
+  return mdast.children[0]?.children ?? [];
+}
+
+export function mdastChildrenToHtml(children: any[]): string {
+  const mdast = { type: "paragraph", children };
+  const hast = toHast(mdast);
+  const full = toHtml(hast);
+  return full.replace(/^<p>|<\/p>$/g, "");
 }
 
 export function getPages(dir: string, base = ""): string[] {

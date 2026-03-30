@@ -1,7 +1,10 @@
 <script lang="ts">
+  import RichText from "./components/RichText.svelte";
   import EditBlock from "./EditBlock.svelte";
+  import { htmlToMdastChildren, mdastChildrenToHtml } from "$lib/utils.js";
 
-  const { tree = $bindable(), save } = $props();
+  const { tree = $bindable(), save, addBlock, index = 0 } = $props();
+  let html = $state("");
 
   function getText(node: any): string {
     if (node.value) return node.value;
@@ -9,8 +12,10 @@
     return "";
   }
 
-  function setText(node: any, value: string) {
-    node.children = [{ type: "text", value }];
+  function setHTML(node: any, html: string) {
+    const children = htmlToMdastChildren(html);
+    node.children.length = 0;
+    node.children.push(...children);
   }
 
   const blockLevelTypes = ["root", "blockquote", "listItem", "list"];
@@ -19,48 +24,43 @@
 
 {#if tree.type === "root"}
   <div class="root">
-    {#each tree.children as child}
-      <EditBlock tree={child} {save} />
+    {#each tree.children as child, i}
+      <EditBlock tree={child} {save} {addBlock} index={i} />
     {/each}
   </div>
 {:else if tree.type === "heading"}
   <div class="block">
     <span class="label">h{tree.depth}</span>
-    <input
-      class="heading-input"
-      style="font-size: {tree.depth === 1
-        ? '1.4rem'
-        : tree.depth === 2
-          ? '1.2rem'
-          : '1rem'};"
-      value={getText(tree)}
-      oninput={(e) => {
-        setText(tree, e.currentTarget.value);
-        save();
-      }}
+    <RichText
+      content={mdastChildrenToHtml(tree.children)}
+      heading={tree.depth}
+      bind:html
+      onEnter={() =>
+        addBlock(index, {
+          type: "paragraph",
+          children: [{ type: "text", value: "" }],
+        })}
     />
   </div>
 {:else if tree.type === "paragraph"}
   <div class="block">
     <span class="label">p</span>
-    <div
-      class="paragraph-input"
-      role="textbox"
-      contenteditable="true"
-      oninput={(e) => {
-        setText(tree, e.currentTarget.textContent ?? "");
-        save();
-      }}
-    >
-      {getText(tree)}
-    </div>
+    <RichText
+      content={mdastChildrenToHtml(tree.children)}
+      bind:html
+      onEnter={() =>
+        addBlock(index, {
+          type: "paragraph",
+          children: [{ type: "text", value: "" }],
+        })}
+    />
   </div>
 {:else if isBlock}
   <div class="block nested">
     <span class="label">{tree.type}</span>
     <div class="nested-children">
       {#each tree.children as child}
-        <EditBlock tree={child} {save} />
+        <EditBlock tree={child} {save} {addBlock} />
       {/each}
     </div>
   </div>
@@ -108,6 +108,7 @@
 
   .block {
     display: flex;
+    position: relative;
     align-items: flex-start;
     gap: 0.75rem;
     transition: border-color 0.15s;
@@ -129,30 +130,6 @@
     font-size: 10px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-  }
-
-  .heading-input {
-    flex: 1;
-    outline: none;
-    border: none;
-    background: transparent;
-    padding: 0;
-    width: 100%;
-    font-weight: 600;
-    font-family: inherit;
-  }
-
-  .paragraph-input {
-    flex: 1;
-    outline: none;
-    border: none;
-    background: transparent;
-    padding: 0;
-    width: 100%;
-    resize: none;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    font-family: inherit;
   }
 
   .component {

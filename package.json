@@ -21,8 +21,17 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.7.6",
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/kit": "^2.55.0",
+    "@tiptap/core": "^3.21.0",
+    "@tiptap/extension-bubble-menu": "^3.21.0",
+    "@tiptap/pm": "^3.21.0",
+    "@tiptap/starter-kit": "^3.21.0",
+    "hast-util-to-html": "^9.0.5",
+    "hast-util-to-mdast": "^10.1.2",
+    "mdast-util-to-hast": "^13.2.1",
+    "rehype-parse": "^9.0.1",
     "remark-breaks": "^4.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdc": "^3.10.0",
