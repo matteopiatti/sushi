@@ -7,9 +7,6 @@ const projectRoot = process.env.PROJECT_ROOT ?? resolve(".");
 export default {
   kit: {
     adapter: adapter(),
-    files: {
-      assets: resolve(userCwd, "static"),
-    },
     alias: {
       $functions: resolve(userCwd, "functions"),
       $utils: resolve(projectRoot, "src/utils"),

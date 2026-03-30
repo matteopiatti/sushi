@@ -34,7 +34,11 @@ export function sushi(userCwd: string): Plugin {
         },
         server: {
           fs: {
-            allow: [resolve(userCwd), resolve(userCwd, "node_modules")],
+            allow: [
+              resolve(userCwd),
+              resolve(userCwd, "node_modules"),
+              resolve(__dirname, ".."),
+            ],
           },
         },
       };
