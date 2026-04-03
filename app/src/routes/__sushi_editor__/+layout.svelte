@@ -1,13 +1,9 @@
 <script lang="ts">
-  import { setContext } from "svelte";
   import { page } from "$app/state";
 
   const { data, children } = $props();
-
-  let activePage = $derived(
-    page.url.searchParams.get("current") || data.pages[0],
-  );
-  setContext("activePage", () => activePage);
+  const editorSlug = "/__sushi_editor__";
+  const activePage = $derived(page.url.pathname.replace(`${editorSlug}`, "") || "/");
 </script>
 
 <div class="sushi-editor">
@@ -15,11 +11,11 @@
     <h2>Pages</h2>
     {#each data.pages as p}
       <a
-        href={`?current=${p}`}
-        onclick={() => (activePage = p)}
-        class:active={activePage === p}
+        href={editorSlug + "/" + (p === "index" ? "" : p)}
+        class:active={activePage === `/${p}` ||
+          (((activePage === "/") || (activePage === "")) && p === "index")}
       >
-        {p || "/"}
+        {p}
       </a>
     {/each}
   </aside>

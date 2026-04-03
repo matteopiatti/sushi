@@ -27,6 +27,7 @@ export function getPageContentFromPath(
   return content;
 }
 
+// do i ever even need to run this async?
 export async function generateTree(md: string, layout = false) {
   const processor = unified()
     .use(remarkParse)
@@ -35,6 +36,16 @@ export async function generateTree(md: string, layout = false) {
     .use(remarkBreaks)
     .use(sushiDirective, { layout });
   return await processor.run(processor.parse(md));
+}
+
+export function generateTreeSync(md: string, layout = false) {
+  const processor = unified()
+    .use(remarkParse)
+    .use(remarkFrontmatter, ["yaml"])
+    .use(remarkMDC)
+    .use(remarkBreaks)
+    .use(sushiDirective, { layout });
+  return processor.runSync(processor.parse(md));
 }
 
 export async function serializeTree(
@@ -53,16 +64,20 @@ export async function serializeTree(
 
 export function htmlToMdastChildren(html: string): any[] {
   const hast = unified().use(rehypeParse, { fragment: true }).parse(html);
-
   const mdast = toMdast(hast);
-  return mdast.children[0]?.children ?? [];
+  return mdast.children ?? [];
 }
 
+// Do I need this?
 export function mdastChildrenToHtml(children: any[]): string {
-  const mdast = { type: "paragraph", children };
+  const mdast = { type: "root", children };
   const hast = toHast(mdast);
-  const full = toHtml(hast);
-  return full.replace(/^<p>|<\/p>$/g, "");
+  return toHtml(hast);
+}
+
+export function mdastNodeToHtml(node: any): string {
+  const hast = toHast(node);
+  return toHtml(hast);
 }
 
 export function getPages(dir: string, base = ""): string[] {

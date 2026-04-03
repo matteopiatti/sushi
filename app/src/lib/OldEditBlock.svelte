@@ -1,21 +1,18 @@
 <script lang="ts">
-  import RichText from "./components/RichText.svelte";
-  import EditBlock from "./EditBlock.svelte";
+  import { untrack } from "svelte";
+  import RichText from "./components/OldRichText.svelte";
+  import EditBlock from "./Editor.svelte";
   import { htmlToMdastChildren, mdastChildrenToHtml } from "$lib/utils.js";
 
   const { tree = $bindable(), save, addBlock, index = 0 } = $props();
-  let html = $state("");
-
-  function getText(node: any): string {
-    if (node.value) return node.value;
-    if (node.children) return node.children.map(getText).join("");
-    return "";
-  }
 
   function setHTML(node: any, html: string) {
-    const children = htmlToMdastChildren(html);
-    node.children.length = 0;
-    node.children.push(...children);
+    untrack(() => {
+      const children = htmlToMdastChildren(html);
+      node.children = children.length
+        ? children
+        : [{ type: "text", value: "" }];
+    });
   }
 
   const blockLevelTypes = ["root", "blockquote", "listItem", "list"];
@@ -34,7 +31,10 @@
     <RichText
       content={mdastChildrenToHtml(tree.children)}
       heading={tree.depth}
-      bind:html
+      onChange={(html) => {
+        setHTML(tree, html);
+        save();
+      }}
       onEnter={() =>
         addBlock(index, {
           type: "paragraph",
@@ -47,7 +47,10 @@
     <span class="label">p</span>
     <RichText
       content={mdastChildrenToHtml(tree.children)}
-      bind:html
+      onChange={(html) => {
+        setHTML(tree, html);
+        save();
+      }}
       onEnter={() =>
         addBlock(index, {
           type: "paragraph",
@@ -59,8 +62,8 @@
   <div class="block nested">
     <span class="label">{tree.type}</span>
     <div class="nested-children">
-      {#each tree.children as child}
-        <EditBlock tree={child} {save} {addBlock} />
+      {#each tree.children as child, i}
+        <EditBlock tree={child} {save} {addBlock} index={i} />
       {/each}
     </div>
   </div>

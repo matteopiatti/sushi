@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/state";
-  import EditBlock from "$lib/EditBlock.svelte";
+  import EditBlock from "$lib/Editor.svelte";
   import { generateTree, serializeTree } from "$lib/utils.js";
   import { getContext } from "svelte";
   import { savePage } from "$lib/editor.remote.js";
@@ -16,9 +16,12 @@
   let saveTimeout: ReturnType<typeof setTimeout>;
   async function onChange() {
     clearTimeout(saveTimeout);
-    saving = true;
     saveTimeout = setTimeout(async () => {
-      const md = await serializeTree(tree);
+      saving = true;
+      const [md] = await Promise.all([
+        serializeTree(tree),
+        new Promise((resolve) => setTimeout(resolve, 2000)),
+      ]);
       await savePage({ slug: activePage, content: md });
       iframe?.contentWindow?.location.reload();
       saving = false;

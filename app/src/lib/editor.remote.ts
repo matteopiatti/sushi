@@ -1,18 +1,19 @@
 import { command } from "$app/server";
 import fs from "fs";
 import path from "path";
+import { serializeTree } from "./utils";
 
 const contentDir = process.env.CMS_USER_CWD + "/content";
 
-export const savePage = command(
+export const saveTree = command(
   "unchecked",
-  async (input: { slug: string; content: string }) => {
-    const { slug, content } = input;
+  async (input: { slug: string; tree: any }) => {
+    const { slug, tree } = input;
     const filePath = path.join(
       contentDir,
       slug === "index" ? "" : slug,
       "page.md",
     );
-    fs.writeFileSync(filePath, content, "utf-8");
+    fs.writeFileSync(filePath, await serializeTree(tree), "utf-8");
   },
 );

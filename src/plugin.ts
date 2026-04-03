@@ -21,6 +21,7 @@ export function sushi(userCwd: string): Plugin {
       server.watcher.on("change", (file) => {
         if (file.startsWith(userDir)) {
           if (process.env.SUSHI_EDITOR !== "true") {
+            server.moduleGraph.invalidateAll();
             server.ws.send({ type: "full-reload" });
           }
         }
