@@ -17,10 +17,13 @@ export function sushi(userCwd: string): Plugin {
       server.watcher.add(resolve(userCwd, "blocks"));
       server.watcher.add(resolve(userCwd, "functions"));
 
-      // react to changes in those dirs
       server.watcher.on("change", (file) => {
         if (file.startsWith(userDir)) {
-          server.ws.send({ type: "full-reload" });
+          server.hot.send({
+            type: "custom",
+            event: "sushi:content-change",
+            data: {},
+          });
         }
       });
     },

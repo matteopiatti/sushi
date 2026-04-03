@@ -10,7 +10,7 @@
     emphasis: "i",
     strong: "b",
     thematicBreak: null,
-    break: "br",
+    break: null,
     listItem: "li",
     paragraph: "p",
     // svelte-ignore state_referenced_locally
@@ -32,6 +32,8 @@
   </svelte:element>
 {:else if props.type === "thematicBreak"}
   <hr />
+{:else if props.type === "break"}
+  <br />
 {:else if props.type === "inlineCode"}
   <svelte:element this={"code"} class="inline-code" {...props}>
     {props.value}

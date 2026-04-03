@@ -1,10 +1,19 @@
-<script>
+<script lang="ts">
   import Block from "$lib/Block.svelte";
   import { onNavigate } from "$app/navigation";
   import { generateTree } from "$lib/utils.js";
+  import { invalidateAll } from "$app/navigation";
 
   const { data, children } = $props();
   const tree = $derived(await generateTree(data.layoutContent, true));
+
+  // invalidate ensures that sveltekit can update content,
+  // without full page reload being neccessary
+  if (import.meta.hot) {
+    import.meta.hot.on("sushi:content-change", () => {
+      invalidateAll();
+    });
+  }
 
   onNavigate((navigation) => {
     if (!document.startViewTransition) return;
