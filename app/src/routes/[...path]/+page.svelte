@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
   import Block from "$lib/Block.svelte";
   import { generateTree } from "$lib/utils.js";
   import { page } from "$app/state";
+  import type { Root } from "mdast";
 
   const { data } = $props();
-  let tree = $derived(await generateTree(data.pageContent));
+  let tree = $derived<Root>(await generateTree(data.pageContent));
 </script>
 
 <svelte:window
@@ -15,6 +16,6 @@
   }}
 />
 
-{#key page.url.pathname}
+{#key page.url.pathname && tree.children.length}
   <Block {tree} />
 {/key}

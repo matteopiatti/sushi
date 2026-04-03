@@ -56,6 +56,7 @@
       }),
     ),
   );
+
   const childrenProps = $derived.by(() =>
     Object.fromEntries(
       props.children.map((element) => [

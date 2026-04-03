@@ -3,7 +3,9 @@
 
   const { data, children } = $props();
   const editorSlug = "/__sushi_editor__";
-  const activePage = $derived(page.url.pathname.replace(`${editorSlug}`, "") || "/");
+  const activePage = $derived(
+    page.url.pathname.replace(`${editorSlug}`, "") || "/",
+  );
 </script>
 
 <div class="sushi-editor">
@@ -13,7 +15,7 @@
       <a
         href={editorSlug + "/" + (p === "index" ? "" : p)}
         class:active={activePage === `/${p}` ||
-          (((activePage === "/") || (activePage === "")) && p === "index")}
+          ((activePage === "/" || activePage === "") && p === "index")}
       >
         {p}
       </a>
