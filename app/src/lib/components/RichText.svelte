@@ -3,16 +3,19 @@
   import { StarterKit } from "@tiptap/starter-kit";
   import BubbleMenu from "@tiptap/extension-bubble-menu";
   import { onDestroy, onMount } from "svelte";
-  import Document from "@tiptap/extension-document";
+  import { SushiExtension, SingleBlockDocument } from "$lib/tiptapUtils";
 
-  let { content = $bindable(), oninput } = $props();
+  let {
+    content = $bindable(),
+    oninput,
+    onbackspace,
+    onenter,
+    onarrowup,
+    onarrowdown,
+  } = $props();
 
   let element = $state<HTMLDivElement | null>(null);
   let editor = $state<Editor | null>(null);
-
-  const SingleBlockDocument = Document.extend({
-    content: "block",
-  });
 
   onMount(() => {
     editor = new Editor({
@@ -21,6 +24,12 @@
         SingleBlockDocument,
         StarterKit.configure({
           document: false,
+        }),
+        SushiExtension.configure({
+          onEnterAtEnd: () => onenter(),
+          onBackspaceAtStart: () => onbackspace(),
+          onArrowUpAtStart: () => onarrowup(),
+          onArrowDownAtEnd: () => onarrowdown(),
         }),
       ],
       content,

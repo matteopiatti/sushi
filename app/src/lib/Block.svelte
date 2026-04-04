@@ -19,7 +19,7 @@
   <Component {...tree} />
 {:else}
   <Component {...tree}>
-    {#each tree.children as child}
+    {#each tree.children as child (child._key)}
       <Block tree={child} {children} />
     {/each}
   </Component>

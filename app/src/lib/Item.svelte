@@ -2,7 +2,16 @@
   import { mdastNodeToHtml, htmlToMdastChildren } from "./utils";
   import RichText from "./components/RichText.svelte";
 
-  let { tree = $bindable(), onremove } = $props();
+  let {
+    tree = $bindable(),
+    onremove,
+    onadd,
+    onarrowup,
+    onarrowdown,
+    onmoveup,
+    onmovedown,
+  } = $props();
+
   let html = $state(mdastNodeToHtml(tree));
   let richtext = $state<HTMLElement>();
   const type = $state(tree.type);
@@ -11,20 +20,31 @@
     const nodes = htmlToMdastChildren(html);
     tree.children = nodes[0]?.children ?? [];
   }
+
+  export function focus() {
+    richtext?.focus();
+  }
 </script>
 
 <div
   class="block"
   role="textbox"
   tabindex="-1"
-  onclick={() => richtext?.focus()}
-  onkeydown={(e) => {
-    if (e.key === "Enter" || e.key === " ") richtext?.focus();
-  }}
+  onclick={focus}
+  onkeydown={(e) => (e.key === "Enter" || e.key === " " ? focus() : null)}
 >
   <span class="label">{type}</span>
-  <button onclick={onremove}>remove</button>
-  <RichText bind:this={richtext} bind:content={html} oninput={save} />
+  <button onclick={onmoveup}>moveup</button>
+  <button onclick={onmovedown}>movedown</button>
+  <RichText
+    bind:this={richtext}
+    onbackspace={onremove}
+    onenter={onadd}
+    {onarrowup}
+    {onarrowdown}
+    bind:content={html}
+    oninput={save}
+  />
 </div>
 
 <style>
@@ -49,6 +69,7 @@
 
     .label {
       flex-shrink: 0;
+      cursor: grab;
       padding-top: 4px;
       width: 60px;
       color: #aaa;

@@ -12,6 +12,7 @@
   const activePage = $derived(
     page.url.pathname.replace(`${editorSlug}`, "") || "index",
   );
+
   let saving = $state<Boolean>(false);
   let iframe = $state<HTMLIFrameElement>();
   let tree = $derived.by(() => {
@@ -21,6 +22,7 @@
   let saveTimeout: ReturnType<typeof setTimeout>;
 
   $effect(() => {
+    saving = true;
     iframe?.contentWindow?.postMessage(
       { type: "sushi-update", tree: $state.snapshot(tree) },
       "*",
@@ -28,14 +30,23 @@
 
     clearTimeout(saveTimeout);
     saveTimeout = setTimeout(() => {
-      saving = true;
       untrack(() => {
         saveTree({ slug: activePage, tree });
       });
       saving = false;
     }, 1500);
   });
+
+  $inspect(saving);
 </script>
+
+<svelte:window
+  onbeforeunload={(e) => {
+    if (saving) {
+      e.preventDefault();
+    }
+  }}
+/>
 
 <div class="editor-page">
   <div class="editor-header">

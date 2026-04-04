@@ -94,5 +94,11 @@ export default function sushiDirective(
         }
       },
     );
+
+    visit(tree, (node) => {
+      if (!(node as any)._key) {
+        (node as any)._key = crypto.randomUUID();
+      }
+    });
   };
 }
