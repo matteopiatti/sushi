@@ -11,6 +11,7 @@ import rehypeParse from "rehype-parse";
 import { toMdast } from "hast-util-to-mdast";
 import { toHtml } from "hast-util-to-html";
 import { toHast } from "mdast-util-to-hast";
+import { visit } from "unist-util-visit";
 
 export function getPageContentFromPath(
   folderPath: string,
@@ -65,6 +66,9 @@ export async function serializeTree(
 export function htmlToMdastChildren(html: string): any[] {
   const hast = unified().use(rehypeParse, { fragment: true }).parse(html);
   const mdast = toMdast(hast);
+  visit(mdast, (node) => {
+    if (!node._key) node._key = crypto.randomUUID();
+  });
   return mdast.children ?? [];
 }
 

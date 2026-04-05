@@ -88,6 +88,10 @@
       grid-template-columns: 1fr 1fr;
       width: 100%;
       height: calc(100vh - 3rem);
+
+      > div:first-child {
+        overflow-y: auto;
+      }
     }
   }
 </style>
