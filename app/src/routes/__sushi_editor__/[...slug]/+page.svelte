@@ -36,8 +36,6 @@
       saving = false;
     }, 1500);
   });
-
-  $inspect(saving);
 </script>
 
 <svelte:window
