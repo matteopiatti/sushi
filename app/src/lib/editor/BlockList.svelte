@@ -5,6 +5,7 @@
   import Draggable from "./Draggable.svelte";
   import EditorBlock from "./EditorBlock.svelte";
   import PropertyBlock from "./PropertyBlock.svelte";
+  import ValueBlock from "./ValueBlock.svelte";
 
   let { children = $bindable() } = $props();
   let items = $state<Array<Item>>([]);
@@ -47,7 +48,7 @@
   {#each children as child, i (child._key)}
     {#if child.type === "yaml"}
       <PropertyBlock bind:node={children[i]} />
-    {:else if child.type === "paragraph" || child.type === "heading" || child.type === "blockquote"}
+    {:else if child.type === "paragraph" || child.type === "heading" || child.type === "blockquote" || child.type === "list"}
       <Draggable
         class="block"
         index={i}
@@ -58,6 +59,23 @@
         <EditorBlock
           bind:this={items[i]}
           node={child}
+          onevent={(a) => handle(i, a)}
+        />
+        <!-- {#if child.type === "blockquote"}
+          <BlockList bind:children={child.children} />
+        {/if} -->
+      </Draggable>
+    {:else if child.type === "code"}
+      <Draggable
+        class="block"
+        index={i}
+        handleName={child.type}
+        {move}
+        {dragState}
+      >
+        <ValueBlock
+          bind:this={items[i]}
+          bind:value={child.value}
           onevent={(a) => handle(i, a)}
         />
         <!-- {#if child.type === "blockquote"}

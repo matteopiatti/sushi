@@ -12,6 +12,7 @@
     onenter,
     onarrowup,
     onarrowdown,
+    isCode = false,
   } = $props();
 
   let element = $state<HTMLDivElement | null>(null);
@@ -43,7 +44,17 @@
           },
         }),
       ],
-      content,
+      content: isCode
+        ? {
+            type: "doc",
+            content: [
+              {
+                type: "codeBlock",
+                content: [{ type: "text", text: content ?? "" }],
+              },
+            ],
+          }
+        : content,
       onUpdate({ editor }) {
         content = editor.getHTML();
         oninput();

@@ -8,8 +8,17 @@
 
   function save() {
     const nodes = htmlToMdastChildren(html);
-    node.children = nodes[0]?.children ?? [];
+    const parsed = nodes[0];
+    if (!parsed) return;
+
+    node.children = parsed.children ?? [];
+
+    if (parsed.type !== node.type) node.type = parsed.type;
+    if (parsed.ordered !== node.ordered) node.ordered = parsed.ordered;
+    if (parsed.depth !== node.depth) node.depth = parsed.depth;
   }
+
+  $inspect(node);
 
   export function focus() {
     richtext?.focus();

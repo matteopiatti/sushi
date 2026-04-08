@@ -22,7 +22,11 @@ export const SushiExtension = Extension.create({
       Enter: () => {
         const { from } = this.editor.state.selection;
         const end = this.editor.state.doc.content.size;
-        if (from >= end - 2) {
+        const blockType = this.editor.state.doc.resolve(
+          this.editor.state.selection.from,
+        ).parent.type.name;
+
+        if (from >= end - 2 && blockType !== "codeBlock") {
           this.options.onEnterAtEnd();
           return true;
         }

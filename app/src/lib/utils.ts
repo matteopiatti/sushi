@@ -49,6 +49,9 @@ export async function serializeTree(
     .use(remarkStringify, {
       emphasis: "_",
       strong: "*",
+      bullet: "-",
+      bulletOrdered: ".",
+      listItemSpread: false,
       handlers: {
         strong(node, parent, state, info) {
           const exit = state.enter("strong");
