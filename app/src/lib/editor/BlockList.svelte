@@ -20,6 +20,8 @@
     children.splice(to > from ? to - 1 : to, 0, block);
   }
 
+  $inspect(children);
+
   function handle(i: number, action: string) {
     switch (action) {
       case "add":

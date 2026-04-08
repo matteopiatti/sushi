@@ -8,8 +8,6 @@
     value = v.replace(/<[^>]*>/g, "");
   }
 
-  $inspect(value);
-
   export function focus() {
     richtext?.focus();
   }

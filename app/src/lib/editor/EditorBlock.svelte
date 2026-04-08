@@ -18,8 +18,6 @@
     if (parsed.depth !== node.depth) node.depth = parsed.depth;
   }
 
-  $inspect(node);
-
   export function focus() {
     richtext?.focus();
   }
