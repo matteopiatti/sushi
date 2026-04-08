@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { mdastNodeToHtml, htmlToMdastChildren } from "./utils";
-  import RichText from "./components/RichText.svelte";
+  import { mdastNodeToHtml, htmlToMdastChildren } from "$lib/utils";
+  import RichText from "$lib/components/RichText.svelte";
 
   let { node = $bindable(), onevent } = $props();
   let html = $state(mdastNodeToHtml(node));

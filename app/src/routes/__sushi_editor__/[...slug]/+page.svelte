@@ -1,9 +1,9 @@
 <script lang="ts">
-  import "$lib/tiptap.css";
+  import "$lib/editor/editor.css";
   import { page } from "$app/state";
-  import Editor from "$lib/Editor.svelte";
+  import Editor from "$lib/editor/Editor.svelte";
   import { generateTreeSync } from "$lib/utils.js";
-  import { saveTree } from "$lib/editor.remote.js";
+  import { saveTree } from "$lib/editor/editor.remote.js";
   import { untrack } from "svelte";
 
   const { data } = $props();

@@ -1,7 +1,7 @@
 import { command } from "$app/server";
 import fs from "fs";
 import path from "path";
-import { serializeTree } from "./utils";
+import { serializeTree } from "$lib/utils";
 
 const contentDir = process.env.CMS_USER_CWD + "/content";
 

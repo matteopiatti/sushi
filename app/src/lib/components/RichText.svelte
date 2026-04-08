@@ -3,7 +3,7 @@
   import { StarterKit } from "@tiptap/starter-kit";
   import BubbleMenu from "@tiptap/extension-bubble-menu";
   import { onDestroy, onMount } from "svelte";
-  import { SushiExtension, SingleBlockDocument } from "$lib/tiptapUtils";
+  import { SushiExtension, SingleBlockDocument } from "$lib/editor/tiptapUtils";
 
   let {
     content = $bindable(),
