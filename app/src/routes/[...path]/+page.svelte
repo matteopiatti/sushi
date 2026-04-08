@@ -2,10 +2,9 @@
   import Block from "$lib/Block.svelte";
   import { generateTree } from "$lib/utils.js";
   import { page } from "$app/state";
-  import type { Root } from "mdast";
 
   const { data } = $props();
-  let tree = $derived<Root>(await generateTree(data.pageContent));
+  let tree = $derived(generateTree(data.pageContent));
 </script>
 
 <svelte:window

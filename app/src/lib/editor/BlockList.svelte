@@ -4,6 +4,7 @@
   import BlockList from "./BlockList.svelte";
   import Draggable from "./Draggable.svelte";
   import EditorBlock from "./EditorBlock.svelte";
+  import PropertyBlock from "./PropertyBlock.svelte";
 
   let { children = $bindable() } = $props();
   let items = $state<Array<Item>>([]);
@@ -44,7 +45,9 @@
 
 <div class="block-list">
   {#each children as child, i (child._key)}
-    {#if child.type === "paragraph" || child.type === "heading" || child.type === "blockquote"}
+    {#if child.type === "yaml"}
+      <PropertyBlock bind:node={children[i]} />
+    {:else if child.type === "paragraph" || child.type === "heading" || child.type === "blockquote"}
       <Draggable
         class="block"
         index={i}

@@ -5,7 +5,7 @@
   import { invalidateAll } from "$app/navigation";
 
   const { data, children } = $props();
-  const tree = $derived(await generateTree(data.layoutContent, true));
+  const tree = $derived(generateTree(data.layoutContent, true));
 
   // invalidate ensures that sveltekit can update content,
   // without full page reload being neccessary
