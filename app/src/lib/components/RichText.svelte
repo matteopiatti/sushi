@@ -15,10 +15,11 @@
   } = $props();
 
   let element = $state<HTMLDivElement | null>(null);
-  let editor = $state<Editor | null>(null);
+  let editorState = $state<{ editor: Editor | null }>({ editor: null });
+  let bubbleMenu = $state();
 
   onMount(() => {
-    editor = new Editor({
+    editorState.editor = new Editor({
       element,
       extensions: [
         SingleBlockDocument,
@@ -31,29 +32,117 @@
           onArrowUpAtStart: () => onarrowup(),
           onArrowDownAtEnd: () => onarrowdown(),
         }),
+        BubbleMenu.configure({
+          element: bubbleMenu,
+          shouldShow: ({ editor, state, from, to }) => {
+            if (from === to) return false;
+            requestAnimationFrame(() => {
+              editor.commands.setMeta("bubbleMenu", "updatePosition");
+            });
+            return true;
+          },
+        }),
       ],
       content,
       onUpdate({ editor }) {
         content = editor.getHTML();
         oninput();
       },
+      onTransaction: () => {
+        editorState = { editor: editorState.editor };
+      },
     });
   });
 
   onDestroy(() => {
-    editor?.destroy();
+    editorState.editor?.destroy();
   });
 
   export function focus() {
-    editor?.commands.focus();
+    editorState.editor?.commands.focus();
   }
 </script>
 
-<div bind:this={element}></div>
+<div style="position: relative;">
+  <div class="bubble-menu" bind:this={bubbleMenu}>
+    {#if editorState.editor}
+      <button
+        onclick={() => editorState.editor?.chain().focus().toggleBold().run()}
+        class:active={editorState.editor?.isActive("bold")}
+        title="Bold (Cmd+B)"
+      >
+        <b>B</b>
+      </button>
+      <button
+        onclick={() => editorState.editor?.chain().focus().toggleItalic().run()}
+        class:active={editorState.editor?.isActive("italic")}
+        title="Italic (Cmd+I)"
+      >
+        <i>I</i>
+      </button>
+      <button
+        onclick={() => editorState.editor?.chain().focus().toggleCode().run()}
+        class:active={editorState.editor?.isActive("code")}
+        title="Code (Cmd+E)"
+      >
+        <span class="mono">&lt;/&gt;</span>
+      </button>
+    {/if}
+  </div>
+  <div bind:this={element}></div>
+</div>
 
 <style>
   div {
     margin: 0;
     width: 100%;
+  }
+
+  .bubble-menu {
+    display: flex;
+    position: absolute;
+    gap: 2px;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 50;
+    transition:
+      visibility 0.1s ease,
+      opacity 0.1s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    background: #1e1e1e;
+    padding: 4px;
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.1s ease;
+      cursor: pointer;
+      margin: 0;
+      border: none;
+      border-radius: 5px;
+      background: transparent;
+      padding: 0 6px;
+      min-width: 28px;
+      height: 28px;
+      color: #999;
+      font-size: 13px;
+
+      &:hover {
+        background: #333;
+        color: #fff;
+      }
+
+      &.active {
+        background: #4a9eff;
+        color: #fff;
+      }
+
+      .mono {
+        font-size: 11px;
+        font-family: monospace;
+      }
+    }
   }
 </style>

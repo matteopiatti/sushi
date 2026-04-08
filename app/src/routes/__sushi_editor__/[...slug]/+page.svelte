@@ -2,7 +2,7 @@
   import "$lib/editor/editor.css";
   import { page } from "$app/state";
   import Editor from "$lib/editor/Editor.svelte";
-  import { generateTreeSync } from "$lib/utils.js";
+  import { generateTree } from "$lib/utils.js";
   import { saveTree } from "$lib/editor/editor.remote.js";
   import { untrack } from "svelte";
 
@@ -16,7 +16,7 @@
   let saving = $state<Boolean>(false);
   let iframe = $state<HTMLIFrameElement>();
   let tree = $derived.by(() => {
-    const state = $state(generateTreeSync(data.pageContent));
+    const state = $state(generateTree(data.pageContent));
     return state;
   });
   let saveTimeout: ReturnType<typeof setTimeout>;

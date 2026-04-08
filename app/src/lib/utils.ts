@@ -28,18 +28,7 @@ export function getPageContentFromPath(
   return content;
 }
 
-// do i ever even need to run this async?
-export async function generateTree(md: string, layout = false) {
-  const processor = unified()
-    .use(remarkParse)
-    .use(remarkFrontmatter, ["yaml"])
-    .use(remarkMDC)
-    .use(remarkBreaks)
-    .use(sushiDirective, { layout });
-  return await processor.run(processor.parse(md));
-}
-
-export function generateTreeSync(md: string, layout = false) {
+export function generateTree(md: string, layout = false) {
   const processor = unified()
     .use(remarkParse)
     .use(remarkFrontmatter, ["yaml"])
@@ -57,7 +46,22 @@ export async function serializeTree(
     .use(sushiDirective, { layout })
     .use(remarkMDC)
     .use(remarkFrontmatter, ["yaml"])
-    .use(remarkStringify);
+    .use(remarkStringify, {
+      emphasis: "_",
+      strong: "*",
+      handlers: {
+        strong(node, parent, state, info) {
+          const exit = state.enter("strong");
+          const value = state.containerPhrasing(node, {
+            before: "**",
+            after: "**",
+            ...info,
+          });
+          exit();
+          return `**${value}**`;
+        },
+      },
+    });
 
   const file = processor.stringify(tree);
   return String(file);
@@ -70,13 +74,6 @@ export function htmlToMdastChildren(html: string): any[] {
     if (!node._key) node._key = crypto.randomUUID();
   });
   return mdast.children ?? [];
-}
-
-// Do I need this?
-export function mdastChildrenToHtml(children: any[]): string {
-  const mdast = { type: "root", children };
-  const hast = toHast(mdast);
-  return toHtml(hast);
 }
 
 export function mdastNodeToHtml(node: any): string {
