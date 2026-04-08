@@ -4,7 +4,6 @@ import path from "path";
 
 export const load = ({ params }: { params: Record<string, string> }) => {
   const normalizedPath = path.normalize(params.slug);
-  console.log(normalizedPath);
   const folderPath = path.resolve(contentDir);
 
   // do we need 404 here?

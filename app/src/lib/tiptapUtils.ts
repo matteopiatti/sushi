@@ -21,16 +21,16 @@ export const SushiExtension = Extension.create({
     return {
       Enter: () => {
         const { from } = this.editor.state.selection;
-        if (from >= this.editor.state.doc.content.size - 1) {
+        const end = this.editor.state.doc.content.size;
+        if (from >= end - 2) {
           this.options.onEnterAtEnd();
           return true;
         }
         return false;
       },
-
       Backspace: () => {
         const { from } = this.editor.state.selection;
-        if (from <= 1 && this.editor.isEmpty) {
+        if (from <= 2 && this.editor.isEmpty) {
           this.options.onBackspaceAtStart();
           return true;
         }
@@ -38,7 +38,7 @@ export const SushiExtension = Extension.create({
       },
       ArrowUp: () => {
         const { from } = this.editor.state.selection;
-        if (from <= 1) {
+        if (from <= 2) {
           this.options.onArrowUpAtStart();
           return true;
         }
@@ -46,7 +46,8 @@ export const SushiExtension = Extension.create({
       },
       ArrowDown: () => {
         const { from } = this.editor.state.selection;
-        if (from >= this.editor.state.doc.content.size - 1) {
+        const end = this.editor.state.doc.content.size;
+        if (from >= end - 2) {
           this.options.onArrowDownAtEnd();
           return true;
         }

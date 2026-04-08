@@ -2,20 +2,13 @@
   import { mdastNodeToHtml, htmlToMdastChildren } from "./utils";
   import RichText from "./components/RichText.svelte";
 
-  let {
-    tree = $bindable(),
-    onremove,
-    onadd,
-    onarrowup,
-    onarrowdown,
-  } = $props();
-
-  let html = $state(mdastNodeToHtml(tree));
+  let { node = $bindable(), onevent } = $props();
+  let html = $state(mdastNodeToHtml(node));
   let richtext = $state<HTMLElement>();
 
   function save() {
     const nodes = htmlToMdastChildren(html);
-    tree.children = nodes[0]?.children ?? [];
+    node.children = nodes[0]?.children ?? [];
   }
 
   export function focus() {
@@ -25,10 +18,10 @@
 
 <RichText
   bind:this={richtext}
-  onbackspace={onremove}
-  onenter={onadd}
-  {onarrowup}
-  {onarrowdown}
+  onbackspace={() => onevent("remove")}
+  onenter={() => onevent("add")}
+  onarrowup={() => onevent("up")}
+  onarrowdown={() => onevent("down")}
   bind:content={html}
   oninput={save}
 />
