@@ -78,9 +78,16 @@
           bind:value={child.value}
           onevent={(a) => handle(i, a)}
         />
-        <!-- {#if child.type === "blockquote"}
-          <BlockList bind:children={child.children} />
-        {/if} -->
+      </Draggable>
+    {:else if child.type === "thematicBreak"}
+      <Draggable
+        class="block"
+        index={i}
+        handleName={child.type}
+        {move}
+        {dragState}
+      >
+        <hr style="width: 100%;" />
       </Draggable>
     {/if}
   {/each}
