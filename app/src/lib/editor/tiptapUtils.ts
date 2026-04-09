@@ -1,5 +1,6 @@
 import { Extension } from "@tiptap/core";
 import Document from "@tiptap/extension-document";
+import { Plugin, PluginKey } from "@tiptap/pm/state";
 
 export const SingleBlockDocument = Document.extend({
   content: "block",
@@ -58,5 +59,22 @@ export const SushiExtension = Extension.create({
         return false;
       },
     };
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey("sushiLinks"),
+        props: {
+          handleClick(view, pos, event) {
+            if (!(event.metaKey || event.ctrlKey)) return false;
+            const link = (event.target as HTMLElement).closest("a");
+            if (!link) return false;
+            window.open(link.href, "_blank");
+            return true;
+          },
+        },
+      }),
+    ];
   },
 });

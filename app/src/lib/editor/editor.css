@@ -3,6 +3,20 @@
     outline: none;
   }
 
+  .editor-link {
+    cursor: text;
+    color: #4a9eff;
+    text-decoration: underline;
+
+    &:hover {
+      color: #1e6bb8;
+    }
+
+    &:visited {
+      color: #4a9eff;
+    }
+  }
+
   p,
   h1,
   h2,

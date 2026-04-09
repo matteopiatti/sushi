@@ -26,6 +26,12 @@
         SingleBlockDocument,
         StarterKit.configure({
           document: false,
+          link: {
+            openOnClick: false,
+            HTMLAttributes: {
+              class: "editor-link",
+            },
+          },
         }),
         SushiExtension.configure({
           onEnterAtEnd: () => onenter(),
@@ -98,6 +104,23 @@
       >
         <span class="mono">&lt;/&gt;</span>
       </button>
+      <span class="divider"></span>
+      <button
+        onclick={() => {
+          if (editorState.editor?.isActive("link")) {
+            editorState.editor.chain().focus().unsetLink().run();
+          } else {
+            const url = prompt("URL");
+            if (url) {
+              editorState.editor?.chain().focus().setLink({ href: url }).run();
+            }
+          }
+        }}
+        class:active={editorState.editor?.isActive("link")}
+        title="Link (Cmd+K)"
+      >
+        🔗
+      </button>
     {/if}
   </div>
   <div bind:this={element}></div>
@@ -123,6 +146,13 @@
     border-radius: 8px;
     background: #1e1e1e;
     padding: 4px;
+
+    .divider {
+      margin: 0 4px;
+      background: #444;
+      width: 1px;
+      height: 16px;
+    }
 
     button {
       display: flex;
