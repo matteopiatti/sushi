@@ -2,7 +2,7 @@
   import { mdastNodeToHtml, htmlToMdastChildren } from "$lib/utils";
   import RichText from "$lib/components/RichText.svelte";
 
-  let { node, onevent } = $props();
+  let { node = $bindable(), onevent } = $props();
   let html = $state(mdastNodeToHtml(node));
   let richtext = $state<HTMLElement>();
 

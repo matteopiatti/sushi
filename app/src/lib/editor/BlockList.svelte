@@ -1,14 +1,16 @@
 <script lang="ts">
   import { tick } from "svelte";
-  import Item from "./EditorBlock.svelte";
   import BlockList from "./BlockList.svelte";
   import Draggable from "./Draggable.svelte";
   import EditorBlock from "./EditorBlock.svelte";
   import PropertyBlock from "./PropertyBlock.svelte";
   import ValueBlock from "./ValueBlock.svelte";
+  import ComponentBlock from "./ComponentBlock.svelte";
 
-  let { children = $bindable() } = $props();
-  let items = $state<Array<Item>>([]);
+  let { children = $bindable(), draggable = true } = $props();
+  let items = $state<
+    Array<EditorBlock | ComponentBlock | PropertyBlock | ValueBlock>
+  >([]);
   let dragState = $state({
     dragIndex: null as number | null,
     dropIndex: null as number | null,
@@ -19,8 +21,6 @@
     const [block] = children.splice(from, 1);
     children.splice(to > from ? to - 1 : to, 0, block);
   }
-
-  $inspect(children);
 
   function handle(i: number, action: string) {
     switch (action) {
@@ -47,9 +47,21 @@
 </script>
 
 <div class="block-list">
+  <!-- svelte-ignore binding_property_non_reactive -->
   {#each children as child, i (child._key)}
     {#if child.type === "yaml"}
       <PropertyBlock bind:node={children[i]} />
+    {:else if child.type === "containerComponent"}
+      <Draggable
+        class="block component-block"
+        index={i}
+        handleName={child.name}
+        {move}
+        {dragState}
+        disabled={!draggable}
+      >
+        <ComponentBlock bind:node={children[i]} />
+      </Draggable>
     {:else if child.type === "paragraph" || child.type === "heading" || child.type === "blockquote" || child.type === "list"}
       <Draggable
         class="block"
@@ -57,10 +69,11 @@
         handleName={child.type}
         {move}
         {dragState}
+        disabled={!draggable}
       >
         <EditorBlock
           bind:this={items[i]}
-          node={child}
+          bind:node={children[i]}
           onevent={(a) => handle(i, a)}
         />
         <!-- {#if child.type === "blockquote"}
@@ -74,6 +87,7 @@
         handleName={child.type}
         {move}
         {dragState}
+        disabled={!draggable}
       >
         <ValueBlock
           bind:this={items[i]}
@@ -88,9 +102,12 @@
         handleName={child.type}
         {move}
         {dragState}
+        disabled={!draggable}
       >
         <hr style="width: 100%;" />
       </Draggable>
+    {:else if child.type === "componentContainerSection"}
+      <BlockList bind:children={child.children} />
     {/if}
   {/each}
 </div>

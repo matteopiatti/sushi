@@ -18,6 +18,7 @@
 </script>
 
 <div class="block property-block">
+  <span class="name">Page Properties</span>
   {#each Object.keys(properties) as key}
     <div class="property">
       <span class="label" onclick={() => remove(key)}>{key}</span>
@@ -42,6 +43,16 @@
     background: #d8e7e7;
     color: #636363;
     font-size: 0.8rem;
+
+    .name {
+      flex-shrink: 0;
+      padding-top: 4px;
+      width: 60px;
+      color: #aaa;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
 
     .property {
       display: flex;

@@ -6,6 +6,7 @@
     move,
     index: i,
     dragState,
+    disabled = false,
   } = $props();
   let canDrag = $state(false);
 </script>
@@ -15,7 +16,7 @@
   role="application"
   class:dragging={dragState.dragIndex === i}
   class:drop-target={dragState.dropIndex === i}
-  draggable={canDrag}
+  draggable={canDrag && !disabled}
   ondragstart={() => (dragState.dragIndex = i)}
   ondragend={() => {
     dragState.dragIndex = null;
@@ -36,6 +37,7 @@
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <span
     class="drag-handle"
+    style={disabled ? "cursor: unset;" : ""}
     onmousedown={() => (canDrag = true)}
     onmouseup={() => (canDrag = false)}>{handleName}</span
   >

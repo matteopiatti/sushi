@@ -90,6 +90,7 @@
       height: calc(100vh - 3rem);
 
       > div:first-child {
+        padding-bottom: 20px;
         overflow-y: auto;
       }
     }
